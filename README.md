@@ -34,7 +34,7 @@ To deploy:
 $ REACT_APP_EKTO_KEY=$EKTO_KEY npm run deploy
 ```
 
-This command first runs `npm run build` to build a production optimized build of your application, followed by `npm run deploy`. The deploy command runs the script `./scripts/upload.js` to sync the `/build` directory to your S3 bucket.
+The deploy command first runs `npm run build` to build a production optimized build of your application, followed by `npm run upload`. The upload command runs the script `./scripts/upload.js` to sync the `/build` directory to your S3 bucket.
 
 ## License
 
