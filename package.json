@@ -1,0 +1,41 @@
+{
+  "name": "ava",
+  "version": "0.0.1",
+  "description": "A blog template for Ekto",
+  "author": "Ben Hansen <bnhansn@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "eslint": "^3.4.0",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.2.1",
+    "eslint-plugin-react": "^6.2.0",
+    "react-scripts": "0.4.1"
+  },
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "lodash": "^4.15.0",
+    "md5": "^2.2.0",
+    "moment": "^2.14.1",
+    "normalize.css": "^4.2.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.7.0",
+    "react-router-scroll": "^0.3.2",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
+    "s3": "^4.4.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "test": "react-scripts test --env=jsdom",
+    "lint": "eslint src/*.js src/**/*.js src/**/**/*.js; exit 0",
+    "upload": "node scripts/upload.js",
+    "deploy": "rm -rf build && npm run build && npm run upload"
+  }
+}
