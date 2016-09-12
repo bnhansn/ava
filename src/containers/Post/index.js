@@ -3,11 +3,64 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import { Link } from 'react-router';
+import { css, StyleSheet } from 'aphrodite';
 import { fetchPost } from './actions';
-import './styles.css';
 import NotFound from '../../components/NotFound';
 import Gravatar from '../../components/Gravatar';
 import PostTemplate from '../../components/PostTemplate';
+
+const styles = StyleSheet.create({
+  header: {
+    minHeight: '2rem',
+    padding: '1rem',
+    marginBottom: '4rem',
+  },
+
+  headerWithImage: {
+    height: '60vh',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+  },
+
+  headerWithNoImage: {
+    borderTop: '4px solid #4183c4',
+  },
+
+  headerTitle: {
+    fontSize: '1.5rem',
+    ':hover': {
+      textDecoration: 'none',
+    },
+    ':focus': {
+      textDecoration: 'none',
+    },
+  },
+
+  headerTitleWithImage: {
+    color: '#fff',
+    ':hover': {
+      color: '#fff',
+    },
+    ':focus': {
+      color: '#fff',
+    },
+  },
+
+  postTitle: {
+    fontSize: '2.5rem',
+  },
+
+  postMeta: {
+    fontSize: '90%',
+    color: 'rgb(160,165,170)',
+  },
+
+  postAutor: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+});
 
 class Post extends Component {
   static propTypes = {
@@ -30,14 +83,23 @@ class Post extends Component {
 
   renderHeader() {
     const { post, account } = this.props;
-    if (isEmpty(post) || isEmpty(account)) { return <div className="page-header" />; }
+    if (isEmpty(post) || isEmpty(account)) { return <div className={css(styles.header)} />; }
+    const headerClass = css(
+      styles.header,
+      post.image && styles.headerWithImage,
+      !post.image && styles.headerWithNoImage,
+    );
+    const titleClass = css(
+      styles.headerTitle,
+      post.image && styles.headerTitleWithImage,
+    );
 
     return (
       <header
+        className={headerClass}
         style={{ backgroundImage: `url(${post.image})` }}
-        className={`page-header ${post.image ? 'page-header--image' : 'page-header--no-image'}`}
       >
-        <Link to="/" className="page-title">{account.name}</Link>
+        <Link to="/" className={titleClass}>{account.name}</Link>
       </header>
     );
   }
@@ -52,17 +114,19 @@ class Post extends Component {
     if (isEmpty(post)) { return <NotFound />; }
 
     return (
-      <article className="post">
-        <header className="post-header">
-          <h1 className="post-title">{post.title}</h1>
-          <div className="post-meta">
+      <article className={css(styles.post)}>
+        <header style={{ marginBottom: '3rem' }}>
+          <h1 className={css(styles.postTitle)}>{post.title}</h1>
+          <div className={css(styles.postMeta)}>
             <time>{moment(post.publishedAt).format('D MMMM YYYY')}</time>
           </div>
         </header>
         <section dangerouslySetInnerHTML={this.renderPostHtml()} />
         <hr style={{ margin: '2rem 0' }} />
-        <div className="post-author">
-          <Gravatar email={post.author.email} size={24} className="post-author-gravatar" />
+        <div className={css(styles.postAutor)}>
+          <span style={{ marginRight: '.75rem' }}>
+            <Gravatar email={post.author.email} size={24} className="post-author-gravatar" />
+          </span>
           <span>{post.author.name}</span>
         </div>
       </article>

@@ -1,10 +1,50 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
+import { css, StyleSheet } from 'aphrodite';
 import { fetchPosts, fetchMorePosts } from './actions';
 import PostPreview from '../../components/PostPreview';
 import PostPreviewTemplate from '../../components/PostPreviewTemplate';
-import './styles.css';
+
+const styles = StyleSheet.create({
+  siteHeader: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    height: '400px',
+    marginBottom: '4rem',
+    color: '#fff',
+    backgroundColor: 'rgb(60,65,70)',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+  },
+
+  siteName: {
+    fontSize: '3rem',
+  },
+
+  siteDescription: {
+    fontSize: '1.5rem',
+    fontWeight: '300',
+  },
+
+  button: {
+    padding: '.5rem .75rem',
+    color: 'rgb(160,165,170)',
+    background: '#fff',
+    border: '1px solid rgb(160,165,170)',
+    borderRadius: '3px',
+    ':hover': {
+      color: 'rgb(140,145,170)',
+      border: '1px solid rgb(140,145,170)',
+      cursor: 'pointer',
+    },
+  },
+
+});
 
 class Home extends Component {
   static propTypes = {
@@ -43,12 +83,17 @@ class Home extends Component {
 
   renderHeader() {
     const { account } = this.props;
-    if (isEmpty(account)) { return <header className="site-header" />; }
+    if (isEmpty(account)) { return <header className={css(styles.siteHeader)} />; }
 
     return (
-      <header className="site-header" style={{ backgroundImage: `url(${account.image})` }}>
-        <h1 className="site-name">{account.name}</h1>
-        {account.description && <h2 className="site-description">{account.description}</h2>}
+      <header
+        className={css(styles.siteHeader)}
+        style={{ backgroundImage: `url(${account.image})` }}
+      >
+        <h1 className={css(styles.siteName)}>{account.name}</h1>
+        {account.description &&
+          <h2 className={css(styles.siteDescription)}>{account.description}</h2>
+        }
       </header>
     );
   }
@@ -72,7 +117,7 @@ class Home extends Component {
           {nextPage && !isLoadingMorePosts &&
             <div style={{ textAlign: 'center', margin: '3rem 0' }}>
               <button
-                className="load-posts-button"
+                className={css(styles.button)}
                 onClick={this.handlePagination}
               >
                 Older posts →

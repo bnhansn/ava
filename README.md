@@ -13,6 +13,12 @@ On your Ekto account settings page:
 * Make a note of the account key.
 * Add your website's url to the domains list. (Ex: `http://localhost:3000`, `http://www.your-website.com`).
 
+Install project dependencies.
+
+```
+$ npm install
+```
+
 Set the environment variable `REACT_APP_EKTO_KEY` to your account key when starting the application.
 
 ```

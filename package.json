@@ -15,6 +15,7 @@
     "react-scripts": "0.4.1"
   },
   "dependencies": {
+    "aphrodite": "^0.5.0",
     "dotenv": "^2.0.0",
     "lodash": "^4.15.0",
     "md5": "^2.2.0",
