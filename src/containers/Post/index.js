@@ -8,6 +8,7 @@ import { fetchPost } from './actions';
 import NotFound from '../../components/NotFound';
 import Gravatar from '../../components/Gravatar';
 import PostTemplate from '../../components/PostTemplate';
+import './styles.css';
 
 const styles = StyleSheet.create({
   header: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     borderTop: '4px solid #4183c4',
   },
 
-  headerTitle: {
+  siteTitle: {
     fontSize: '1.5rem',
     ':hover': {
       textDecoration: 'none',
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     },
   },
 
-  headerTitleWithImage: {
+  siteTitleWithImage: {
     color: '#fff',
     ':hover': {
       color: '#fff',
@@ -45,6 +46,11 @@ const styles = StyleSheet.create({
     ':focus': {
       color: '#fff',
     },
+  },
+
+  post: {
+    marginBottom: '2rem',
+    wordWrap: 'break-word',
   },
 
   postTitle: {
@@ -84,14 +90,16 @@ class Post extends Component {
   renderHeader() {
     const { post, account } = this.props;
     if (isEmpty(post) || isEmpty(account)) { return <div className={css(styles.header)} />; }
+
     const headerClass = css(
       styles.header,
       post.image && styles.headerWithImage,
       !post.image && styles.headerWithNoImage,
     );
+
     const titleClass = css(
-      styles.headerTitle,
-      post.image && styles.headerTitleWithImage,
+      styles.siteTitle,
+      post.image && styles.siteTitleWithImage,
     );
 
     return (
@@ -114,7 +122,7 @@ class Post extends Component {
     if (isEmpty(post)) { return <NotFound />; }
 
     return (
-      <article className={css(styles.post)}>
+      <article className={`post ${css(styles.post)}`}>
         <header style={{ marginBottom: '3rem' }}>
           <h1 className={css(styles.postTitle)}>{post.title}</h1>
           <div className={css(styles.postMeta)}>

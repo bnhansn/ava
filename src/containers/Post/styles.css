@@ -1,0 +1,17 @@
+.post blockquote {
+  padding: 5px 0 5px 20px;
+  margin: 0 0 1rem 0;
+  font-style: italic;
+  line-height: 1.58;
+  border-left: 3px solid rgb(60,65,70);
+}
+
+@media (min-width: 768px) {
+  .post blockquote {
+    margin-left: -23px;
+  }
+}
+
+.post blockquote p:last-child {
+  margin-bottom: 0;
+}
