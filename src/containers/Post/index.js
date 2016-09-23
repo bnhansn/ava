@@ -112,10 +112,6 @@ class Post extends Component {
     );
   }
 
-  renderPostHtml() {
-    return { __html: this.props.post.html };
-  }
-
   renderPost() {
     const { post, isLoadingPost } = this.props;
     if (isLoadingPost) { return null; }
@@ -129,7 +125,7 @@ class Post extends Component {
             <time>{moment(post.publishedAt).format('D MMMM YYYY')}</time>
           </div>
         </header>
-        <section dangerouslySetInnerHTML={this.renderPostHtml()} />
+        <section dangerouslySetInnerHTML={{ __html: post.html }} />
         <hr style={{ margin: '2rem 0' }} />
         <div className={css(styles.postAutor)}>
           <span style={{ marginRight: '.75rem' }}>

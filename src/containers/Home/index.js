@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
       cursor: 'pointer',
     },
   },
-
 });
 
 class Home extends Component {
