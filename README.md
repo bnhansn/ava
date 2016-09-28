@@ -8,10 +8,21 @@ This project was created with [create-react-app](https://github.com/facebookincu
 
 Create an account at [https://ekto.tech](https://ekto.tech).
 
-On your Ekto account settings page:
+Make a note of the API key on your Ekto account settings page.
 
-* Make a note of the account key.
-* Add your website's url to the domains list. (Ex: `http://localhost:3000`, `http://www.your-website.com`).
+Clone the repository.
+
+```
+$ git clone https://github.com/bnhansn/ava.git
+$ cd ava
+```
+
+Create a `.env` file in the project root and add your Ekto API key.
+
+```
+$ touch .env
+$ echo "REACT_APP_EKTO_KEY=<your api key>" >> .env
+```
 
 Install project dependencies.
 
@@ -19,10 +30,10 @@ Install project dependencies.
 $ npm install
 ```
 
-Set the environment variable `REACT_APP_EKTO_KEY` to your account key when starting the application.
+Start the application.
 
 ```
-$ REACT_APP_EKTO_KEY=$EKTO_KEY npm start
+$ npm start
 ```
 
 ## Deploying to S3
@@ -32,15 +43,15 @@ Easily deploy your site to AWS S3.
 Prerequisites:
 * Create an S3 bucket enabled for static website hosting.
 * Create an AWS IAM user with full S3 access to your bucket.
-* Create the file `.env` in your project root based on `.env.example` and fill in the variables for your S3 bucket and IAM user.
+* Add the values for your S3 bucket and IAM user to the AWS_* variables in your `.env` file based on `.env.example`.
 
 To deploy:
 
 ```
-$ REACT_APP_EKTO_KEY=$EKTO_KEY npm run deploy
+$ REACT_APP_EKTO_KEY=<your api key> npm run deploy
 ```
 
-The deploy command first runs `npm run build` to build a production optimized build of your application, followed by `npm run upload`. The upload command runs the script `./scripts/upload.js` to sync the `/build` directory to your S3 bucket.
+The deploy command first runs `npm run build` to create a production optimized build of your application, followed by `npm run upload`. The upload command runs the script `./scripts/upload.js` to sync the `/build` directory to your S3 bucket.
 
 ## License
 
