@@ -1,4 +1,4 @@
-const EKTO_URL = 'http://api.ekto.tech/v1';
+const EKTO_URL = 'https://api.ekto.tech/v1';
 const ACCOUNT_KEY = process.env.REACT_APP_EKTO_KEY;
 
 const queryString = (params) => {
