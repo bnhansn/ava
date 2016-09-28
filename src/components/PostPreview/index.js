@@ -40,7 +40,7 @@ const excerpt = (html) => {
 
 const PostPreview = ({ post }) =>
   <div>
-    <Link to={`/${post.slug}`} className={css(styles.link)}>
+    <Link to={`/blog/${post.slug}`} className={css(styles.link)}>
       <h3 className={css(styles.title)}>{post.title}</h3>
     </Link>
     <p style={{ marginBottom: '1.5rem' }}>{excerpt(post.html)}</p>

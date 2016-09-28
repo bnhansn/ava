@@ -1,10 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
 import { css, StyleSheet } from 'aphrodite';
 import { fetchPosts, fetchMorePosts } from './actions';
+import HomeHeader from '../../components/HomeHeader';
 import PostPreview from '../../components/PostPreview';
 import PostPreviewTemplate from '../../components/PostPreviewTemplate';
+import {
+  FETCH_POSTS_PENDING,
+  FETCH_POSTS_REQUEST,
+  FETCH_POSTS_FAILURE,
+} from './constants';
+import {
+  FETCH_ACCOUNT_PENDING,
+  FETCH_ACCOUNT_REQUEST,
+  FETCH_ACCOUNT_FAILURE,
+} from '../App/constants';
 
 const styles = StyleSheet.create({
   siteHeader: {
@@ -20,15 +30,6 @@ const styles = StyleSheet.create({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
-  },
-
-  siteName: {
-    fontSize: '3rem',
-  },
-
-  siteDescription: {
-    fontSize: '1.5rem',
-    fontWeight: '300',
   },
 
   button: {
@@ -47,13 +48,10 @@ const styles = StyleSheet.create({
 
 class Home extends Component {
   static propTypes = {
-    meta: PropTypes.object.isRequired,
-    posts: PropTypes.array.isRequired,
-    account: PropTypes.object.isRequired,
+    app: PropTypes.object.isRequired,
+    posts: PropTypes.object.isRequired,
     fetchPosts: PropTypes.func.isRequired,
     fetchMorePosts: PropTypes.func.isRequired,
-    isLoadingPosts: PropTypes.bool.isRequired,
-    isLoadingMorePosts: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -76,42 +74,44 @@ class Home extends Component {
 
   handlePagination = () => {
     this.setState({
-      page: this.props.meta.nextPage,
+      page: this.props.posts.meta.nextPage,
     }, () => { this.loadMorePosts(); });
   }
 
   renderHeader() {
-    const { account } = this.props;
-    if (isEmpty(account)) { return <header className={css(styles.siteHeader)} />; }
+    const { app, app: { account } } = this.props;
 
-    return (
-      <header
-        className={css(styles.siteHeader)}
-        style={{ backgroundImage: `url(${account.image})` }}
-      >
-        <h1 className={css(styles.siteName)}>{account.name}</h1>
-        {account.description &&
-          <h2 className={css(styles.siteDescription)}>{account.description}</h2>
-        }
-      </header>
-    );
+    if (app.readyState === FETCH_ACCOUNT_PENDING ||
+        app.readyState === FETCH_ACCOUNT_REQUEST ||
+        app.readyState === FETCH_ACCOUNT_FAILURE) {
+      return <header className={css(styles.siteHeader)} />;
+    }
+
+    return <HomeHeader account={account} />;
   }
 
   renderPosts() {
     const { posts } = this.props;
-    if (!posts.length) { return null; }
 
-    return posts.map(post => <PostPreview key={post.id} post={post} />);
+    if (posts.readyState === FETCH_POSTS_PENDING ||
+        posts.readyState === FETCH_POSTS_REQUEST) {
+      return [...Array(5).keys()].map(i => <PostPreviewTemplate key={i} />);
+    }
+
+    if (posts.readyState === FETCH_POSTS_FAILURE) {
+      return <p>Error loading posts</p>;
+    }
+
+    return posts.list.map(post => <PostPreview key={post.id} post={post} />);
   }
 
   render() {
-    const { isLoadingPosts, isLoadingMorePosts, meta: { nextPage } } = this.props;
+    const { posts: { isLoadingMorePosts, meta: { nextPage } } } = this.props;
 
     return (
       <div>
         {this.renderHeader()}
         <section className="container">
-          {isLoadingPosts && [...Array(5).keys()].map(i => <PostPreviewTemplate key={i} />)}
           {this.renderPosts()}
           {nextPage && !isLoadingMorePosts &&
             <div style={{ textAlign: 'center', margin: '3rem 0' }}>
@@ -132,12 +132,8 @@ class Home extends Component {
 
 export default connect(
   state => ({
-    meta: state.home.meta,
-    posts: state.home.posts,
-    account: state.app.account,
-    isLoadingPosts: state.home.isLoadingPosts,
-    isLoadingAccount: state.app.isLoadingAccount,
-    isLoadingMorePosts: state.home.isLoadingMorePosts,
+    app: state.app,
+    posts: state.posts,
   }),
   { fetchPosts, fetchMorePosts }
 )(Home);

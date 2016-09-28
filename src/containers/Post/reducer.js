@@ -1,33 +1,34 @@
 import {
-  FETCH_POST_START,
-  FETCH_POST_ERROR,
+  FETCH_POST_PENDING,
+  FETCH_POST_REQUEST,
   FETCH_POST_SUCCESS,
+  FETCH_POST_FAILURE,
 } from './constants';
 
 const initialState = {
-  post: {},
-  isLoadingPost: false,
+  readyState: FETCH_POST_PENDING,
+  data: {},
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case FETCH_POST_START:
+    case FETCH_POST_REQUEST:
       return {
         ...state,
-        post: {},
-        isLoadingPost: true,
+        readyState: FETCH_POST_REQUEST,
+        data: {},
       };
     case FETCH_POST_SUCCESS:
       return {
         ...state,
-        post: action.payload.data,
-        isLoadingPost: false,
+        readyState: FETCH_POST_SUCCESS,
+        data: action.response.data,
       };
-    case FETCH_POST_ERROR:
+    case FETCH_POST_FAILURE:
       return {
         ...state,
-        post: {},
-        isLoadingPost: false,
+        readyState: FETCH_POST_FAILURE,
+        data: {},
       };
     default:
       return state;

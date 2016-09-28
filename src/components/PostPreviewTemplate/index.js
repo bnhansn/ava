@@ -2,7 +2,7 @@ import React from 'react';
 
 const randomWidth = (min, max) => Math.floor((Math.random() * ((max - min) + 1)) + min);
 
-const line = (i) =>
+const line = i =>
   <div
     key={i}
     style={{

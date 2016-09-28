@@ -10,10 +10,7 @@ import reducers from './reducers';
 import routes from './routes';
 import './index.css';
 
-const store = createStore(
-  reducers,
-  applyMiddleware(thunk)
-);
+const store = createStore(reducers, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>

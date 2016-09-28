@@ -2,7 +2,7 @@ import React from 'react';
 
 const randomWidth = (min, max) => Math.floor((Math.random() * ((max - min) + 1)) + min);
 
-const line = (i) =>
+const line = i =>
   <div
     key={i}
     style={{
@@ -13,12 +13,12 @@ const line = (i) =>
     }}
   />;
 
-const paragraph = (i) =>
+const paragraph = i =>
   <div key={i} style={{ marginBottom: '2rem' }}>
     {[...Array(5).keys()].map(n => line(n))}
   </div>;
 
-const PostTemplate = () =>
+const PostLoadingTemplate = () =>
   <div>
     <div style={{ marginBottom: '3rem' }}>
       <div
@@ -40,4 +40,4 @@ const PostTemplate = () =>
     {[...Array(5).keys()].map(i => paragraph(i))}
   </div>;
 
-export default PostTemplate;
+export default PostLoadingTemplate;

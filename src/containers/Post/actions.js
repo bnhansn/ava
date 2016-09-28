@@ -1,19 +1,19 @@
-import {
-  FETCH_POST_START,
-  FETCH_POST_SUCCESS,
-  FETCH_POST_ERROR,
-} from './constants';
 import ekto from '../../middleware/ekto';
+import {
+  FETCH_POST_REQUEST,
+  FETCH_POST_SUCCESS,
+  FETCH_POST_FAILURE,
+} from './constants';
 
 export function fetchPost(slug) {
   return dispatch => {
-    dispatch({ type: FETCH_POST_START });
-    ekto.fetch(`/posts/${slug}`)
+    dispatch({ type: FETCH_POST_REQUEST });
+    return ekto.fetch(`/posts/${slug}`)
       .then(response => {
-        dispatch({ type: FETCH_POST_SUCCESS, payload: response });
+        dispatch({ type: FETCH_POST_SUCCESS, response });
       })
       .catch(() => {
-        dispatch({ type: FETCH_POST_ERROR });
+        dispatch({ type: FETCH_POST_FAILURE });
       });
   };
 }

@@ -1,43 +1,44 @@
 import {
-  FETCH_POSTS_START,
-  FETCH_POSTS_ERROR,
+  FETCH_POSTS_PENDING,
+  FETCH_POSTS_REQUEST,
   FETCH_POSTS_SUCCESS,
-  FETCH_MORE_POSTS_START,
-  FETCH_MORE_POSTS_ERROR,
+  FETCH_POSTS_FAILURE,
+  FETCH_MORE_POSTS_REQUEST,
   FETCH_MORE_POSTS_SUCCESS,
+  FETCH_MORE_POSTS_FAILURE,
 } from './constants';
 
 const initialState = {
-  posts: [],
+  readyState: FETCH_POSTS_PENDING,
+  list: [],
   meta: {},
-  isLoadingPosts: false,
   isLoadingMorePosts: false,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case FETCH_POSTS_START:
+    case FETCH_POSTS_REQUEST:
       return {
         ...state,
-        posts: [],
+        readyState: FETCH_POSTS_REQUEST,
+        list: [],
         meta: {},
-        isLoadingPosts: true,
       };
     case FETCH_POSTS_SUCCESS:
       return {
         ...state,
-        posts: action.payload.data,
-        meta: action.payload.meta,
-        isLoadingPosts: false,
+        readyState: FETCH_POSTS_SUCCESS,
+        list: action.response.data,
+        meta: action.response.meta,
       };
-    case FETCH_POSTS_ERROR:
+    case FETCH_POSTS_FAILURE:
       return {
         ...state,
-        posts: [],
+        readyState: FETCH_POSTS_FAILURE,
+        list: [],
         meta: {},
-        isLoadingPosts: false,
       };
-    case FETCH_MORE_POSTS_START:
+    case FETCH_MORE_POSTS_REQUEST:
       return {
         ...state,
         isLoadingMorePosts: true,
@@ -45,14 +46,14 @@ export default function (state = initialState, action) {
     case FETCH_MORE_POSTS_SUCCESS:
       return {
         ...state,
-        posts: [
-          ...state.posts,
-          ...action.payload.data,
+        list: [
+          ...state.list,
+          ...action.response.data,
         ],
-        meta: action.payload.meta,
+        meta: action.response.meta,
         isLoadingMorePosts: false,
       };
-    case FETCH_MORE_POSTS_ERROR:
+    case FETCH_MORE_POSTS_FAILURE:
       return {
         ...state,
         isLoadingMorePosts: false,

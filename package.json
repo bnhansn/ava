@@ -1,7 +1,7 @@
 {
   "name": "ava",
   "version": "0.0.1",
-  "description": "A blog template for Ekto",
+  "description": "An Ekto blog template",
   "author": "Ben Hansen <bnhansn@gmail.com>",
   "license": "MIT",
   "private": true,
@@ -12,7 +12,7 @@
     "eslint-plugin-import": "^1.14.0",
     "eslint-plugin-jsx-a11y": "^2.2.1",
     "eslint-plugin-react": "^6.2.0",
-    "react-scripts": "0.5.0"
+    "react-scripts": "0.6.1"
   },
   "dependencies": {
     "aphrodite": "^0.5.0",

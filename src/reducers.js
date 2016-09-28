@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import appReducer from './containers/App/reducer';
-import homeReducer from './containers/Home/reducer';
-import postReducer from './containers/Post/reducer';
+import app from './containers/App/reducer';
+import post from './containers/Post/reducer';
+import posts from './containers/Home/reducer';
 
 const reducers = combineReducers({
-  app: appReducer,
-  home: homeReducer,
-  post: postReducer,
+  app,
+  post,
+  posts,
 });
 
 export default reducers;

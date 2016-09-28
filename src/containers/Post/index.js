@@ -1,53 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
-import { Link } from 'react-router';
 import { css, StyleSheet } from 'aphrodite';
 import { fetchPost } from './actions';
-import NotFound from '../../components/NotFound';
 import Gravatar from '../../components/Gravatar';
-import PostTemplate from '../../components/PostTemplate';
+import PostHeader from '../../components/PostHeader';
+import PostLoadingTemplate from '../../components/PostLoadingTemplate';
+import {
+  FETCH_POST_PENDING,
+  FETCH_POST_REQUEST,
+  FETCH_POST_FAILURE,
+} from './constants';
+import {
+  FETCH_ACCOUNT_PENDING,
+  FETCH_ACCOUNT_REQUEST,
+  FETCH_ACCOUNT_FAILURE,
+} from '../App/constants';
 import './styles.css';
 
 const styles = StyleSheet.create({
-  header: {
-    minHeight: '2rem',
-    padding: '1rem',
-    marginBottom: '4rem',
-  },
-
-  headerWithImage: {
-    height: '60vh',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-  },
-
-  headerWithNoImage: {
-    borderTop: '4px solid #4183c4',
-  },
-
-  siteTitle: {
-    fontSize: '1.5rem',
-    ':hover': {
-      textDecoration: 'none',
-    },
-    ':focus': {
-      textDecoration: 'none',
-    },
-  },
-
-  siteTitleWithImage: {
-    color: '#fff',
-    ':hover': {
-      color: '#fff',
-    },
-    ':focus': {
-      color: '#fff',
-    },
-  },
-
   post: {
     marginBottom: '2rem',
     wordWrap: 'break-word',
@@ -62,7 +33,7 @@ const styles = StyleSheet.create({
     color: 'rgb(160,165,170)',
   },
 
-  postAutor: {
+  postAuthor: {
     display: 'flex',
     alignItems: 'center',
   },
@@ -70,11 +41,10 @@ const styles = StyleSheet.create({
 
 class Post extends Component {
   static propTypes = {
+    app: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    account: PropTypes.object.isRequired,
     fetchPost: PropTypes.func.isRequired,
-    isLoadingPost: PropTypes.bool.isRequired,
   };
 
   componentWillMount() {
@@ -88,63 +58,57 @@ class Post extends Component {
   }
 
   renderHeader() {
-    const { post, account } = this.props;
-    if (isEmpty(post) || isEmpty(account)) { return <div className={css(styles.header)} />; }
+    const { post, app, app: { account } } = this.props;
 
-    const headerClass = css(
-      styles.header,
-      post.image && styles.headerWithImage,
-      !post.image && styles.headerWithNoImage,
-    );
+    if (post.readyState === FETCH_POST_PENDING ||
+        post.readyState === FETCH_POST_REQUEST ||
+        post.readyState === FETCH_POST_FAILURE ||
+        app.readyState === FETCH_ACCOUNT_PENDING ||
+        app.readyState === FETCH_ACCOUNT_REQUEST ||
+        app.readyState === FETCH_ACCOUNT_FAILURE) {
+      return <div style={{ height: '68px', marginBottom: '4rem' }} />;
+    }
 
-    const titleClass = css(
-      styles.siteTitle,
-      post.image && styles.siteTitleWithImage,
-    );
-
-    return (
-      <header
-        className={headerClass}
-        style={{ backgroundImage: `url(${post.image})` }}
-      >
-        <Link to="/" className={titleClass}>{account.name}</Link>
-      </header>
-    );
+    return <PostHeader post={post.data} account={account} />;
   }
 
   renderPost() {
-    const { post, isLoadingPost } = this.props;
-    if (isLoadingPost) { return null; }
-    if (isEmpty(post)) { return <NotFound />; }
+    const { post } = this.props;
+
+    if (post.readyState === FETCH_POST_PENDING ||
+        post.readyState === FETCH_POST_REQUEST) {
+      return <PostLoadingTemplate />;
+    }
+
+    if (post.readyState === FETCH_POST_FAILURE) {
+      return <div>Error loading post</div>;
+    }
 
     return (
       <article className={`post ${css(styles.post)}`}>
         <header style={{ marginBottom: '3rem' }}>
-          <h1 className={css(styles.postTitle)}>{post.title}</h1>
+          <h1 className={css(styles.postTitle)}>{post.data.title}</h1>
           <div className={css(styles.postMeta)}>
-            <time>{moment(post.publishedAt).format('D MMMM YYYY')}</time>
+            <time>{moment(post.data.publishedAt).format('D MMMM YYYY')}</time>
           </div>
         </header>
-        <section dangerouslySetInnerHTML={{ __html: post.html }} />
+        <section dangerouslySetInnerHTML={{ __html: post.data.html }} />
         <hr style={{ margin: '2rem 0' }} />
-        <div className={css(styles.postAutor)}>
+        <div className={css(styles.postAuthor)}>
           <span style={{ marginRight: '.75rem' }}>
-            <Gravatar email={post.author.email} size={24} className="post-author-gravatar" />
+            <Gravatar email={post.data.author.email} size={24} className="post-author-gravatar" />
           </span>
-          <span>{post.author.name}</span>
+          <span>{post.data.author.name}</span>
         </div>
       </article>
     );
   }
 
   render() {
-    const { isLoadingPost } = this.props;
-
     return (
       <div>
         {this.renderHeader()}
         <div className="container">
-          {isLoadingPost && <PostTemplate />}
           {this.renderPost()}
         </div>
       </div>
@@ -154,9 +118,8 @@ class Post extends Component {
 
 export default connect(
   state => ({
-    post: state.post.post,
-    account: state.app.account,
-    isLoadingPost: state.post.isLoadingPost,
+    app: state.app,
+    post: state.post,
   }),
   { fetchPost }
 )(Post);
