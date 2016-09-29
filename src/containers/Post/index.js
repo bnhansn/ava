@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { css, StyleSheet } from 'aphrodite';
@@ -39,14 +40,31 @@ const styles = StyleSheet.create({
   },
 });
 
-class Post extends Component {
-  static propTypes = {
-    app: PropTypes.object.isRequired,
-    post: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
-    fetchPost: PropTypes.func.isRequired,
-  };
+type Props = {
+  fetchPost: () => void,
+  params: {
+    slug: string,
+  },
+  app: {
+    readyState: string,
+    account: Object,
+  },
+  post: {
+    readyState: string,
+    data: {
+      title: string,
+      html: string,
+      publishedAt: string,
+      image?: string,
+      author: {
+        name: string,
+        email: string,
+      },
+    },
+  },
+};
 
+class Post extends Component {
   componentDidMount() {
     this.props.fetchPost(this.props.params.slug);
   }
@@ -56,6 +74,8 @@ class Post extends Component {
       this.props.fetchPost(nextProps.params.slug);
     }
   }
+
+  props: Props;
 
   renderHeader() {
     const { post, app, app: { account } } = this.props;

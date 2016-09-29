@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+// @flow
+import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import { Link } from 'react-router';
 import { media } from '../../styles/settings';
@@ -44,7 +45,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const PostHeader = ({ post, account }) => {
+type Props = {
+  post: {
+    image?: string,
+  },
+  account: {
+    name: string,
+  },
+};
+
+const PostHeader = ({ post, account }: Props) => {
   const headerClass = css(
     styles.header,
     post.image && styles.headerWithImage,
@@ -56,19 +66,16 @@ const PostHeader = ({ post, account }) => {
     post.image && styles.siteNameWithImage,
   );
 
+  const style = post.image ? { backgroundImage: `url(${post.image})` } : null;
+
   return (
     <header
+      style={style}
       className={headerClass}
-      style={{ backgroundImage: `url(${post.image})` }}
     >
       <Link to="/" className={siteNameClass}>{account.name}</Link>
     </header>
   );
-};
-
-PostHeader.propTypes = {
-  post: PropTypes.object.isRequired,
-  account: PropTypes.object.isRequired,
 };
 
 export default PostHeader;

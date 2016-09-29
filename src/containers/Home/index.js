@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { css, StyleSheet } from 'aphrodite';
 import { fetchPosts, fetchMorePosts } from './actions';
@@ -47,21 +48,40 @@ const styles = StyleSheet.create({
   },
 });
 
-class Home extends Component {
-  static propTypes = {
-    app: PropTypes.object.isRequired,
-    posts: PropTypes.object.isRequired,
-    fetchPosts: PropTypes.func.isRequired,
-    fetchMorePosts: PropTypes.func.isRequired,
-  };
+type Post = {
+  id: number,
+};
 
-  constructor(props) {
+type Props = {
+  app: {
+    readyState: string,
+    account: Object,
+  },
+  posts: {
+    readyState: string,
+    list: Array<Post>,
+    meta: {
+      nextPage?: bool,
+    },
+    isLoadingMorePosts: bool,
+  },
+  fetchPosts: () => void,
+  fetchMorePosts: () => void,
+};
+
+class Home extends Component {
+  constructor(props: Props) {
     super(props);
     this.state = {
       page: 1,
       limit: 5,
     };
   }
+
+  state: {
+    page: number,
+    limit: number,
+  };
 
   componentDidMount() {
     const { page, limit } = this.state;
@@ -96,7 +116,7 @@ class Home extends Component {
 
     if (posts.readyState === FETCH_POSTS_PENDING ||
         posts.readyState === FETCH_POSTS_REQUEST) {
-      return [...Array(5).keys()].map(i => <PostPreviewTemplate key={i} />);
+      return [[1, 2, 3, 4, 5]].map(i => <PostPreviewTemplate key={i} />);
     }
 
     if (posts.readyState === FETCH_POSTS_FAILURE) {
@@ -124,7 +144,7 @@ class Home extends Component {
               </button>
             </div>
           }
-          {isLoadingMorePosts && [...Array(5).keys()].map(i => <PostPreviewTemplate key={i} />)}
+          {isLoadingMorePosts && [1, 2, 3, 4, 5].map(i => <PostPreviewTemplate key={i} />)}
         </section>
       </div>
     );

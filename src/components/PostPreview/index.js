@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+// @flow
+import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
 import { css, StyleSheet } from 'aphrodite';
@@ -46,12 +47,25 @@ const excerpt = (html) => {
   return `${text.substring(0, 340)}${text.length > 340 ? '...' : ''}`;
 };
 
-const PostPreview = ({ post }) =>
+type Props = {
+  post: {
+    slug: string,
+    title: string,
+    html: string,
+    author: {
+      email: string,
+      name: string,
+    },
+    publishedAt: string,
+  },
+};
+
+const PostPreview = ({ post }: Props) =>
   <div>
     <Link to={`/blog/${post.slug}`} className={css(styles.link)}>
       <h3 className={css(styles.title)}>{post.title}</h3>
     </Link>
-    <p style={{ marginBottom: '1.5rem' }}>{excerpt(post.html)}</p>
+    <div style={{ marginBottom: '1.5rem' }}>{excerpt(post.html)}</div>
     <div className={css(styles.meta)}>
       <span style={{ marginRight: '.75rem' }}>
         <Gravatar email={post.author.email} size={24} />
@@ -61,9 +75,5 @@ const PostPreview = ({ post }) =>
     </div>
     <hr className={css(styles.postDivider)} />
   </div>;
-
-PostPreview.propTypes = {
-  post: PropTypes.object.isRequired,
-};
 
 export default PostPreview;

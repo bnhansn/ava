@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Match, Miss } from 'react-router';
 import { fetchAccount } from './actions';
@@ -6,16 +7,18 @@ import Home from '../Home';
 import Post from '../Post';
 import NotFound from '../../components/NotFound';
 
-class App extends Component {
-  static propTypes = {
-    fetchAccount: PropTypes.func.isRequired,
-  };
+type Props = {
+  fetchAccount: () => void;
+};
 
+class App extends Component {
   componentDidMount() {
     this.props.fetchAccount();
   }
 
-  render() {
+  props: Props;
+
+  render() { // eslint-disable-line
     return (
       <BrowserRouter>
         <div>

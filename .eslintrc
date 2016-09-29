@@ -7,7 +7,10 @@
       "jsx": true,
     }
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react",
+    "flowtype"
+  ],
   "extends": ["airbnb"],
   "settings": {
     "react": {
@@ -25,6 +28,8 @@
   },
   "rules": {
     "import/prefer-default-export": 0,
-    "react/jsx-filename-extension": 0
+    "react/jsx-filename-extension": 0,
+    "react/no-danger": 0,
+    "react/no-unused-prop-types": 0
   }
 }
