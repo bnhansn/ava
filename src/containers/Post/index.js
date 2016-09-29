@@ -48,13 +48,13 @@ class Post extends Component {
   };
 
   componentWillMount() {
-    if (this.props.params.slug) {
+    if (this.props.params.slug !== 'null') {
       this.props.fetchPost(this.props.params.slug);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.slug && (nextProps.params.slug !== this.props.params.slug)) {
+    if (nextProps.params.slug !== this.props.params.slug) {
       this.props.fetchPost(nextProps.params.slug);
     }
   }
