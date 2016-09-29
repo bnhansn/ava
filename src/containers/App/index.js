@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter, Match, Miss } from 'react-router';
 import { fetchAccount } from './actions';
+import Home from '../Home';
+import Post from '../Post';
+import NotFound from '../../components/NotFound';
 
 class App extends Component {
   static propTypes = {
-    children: PropTypes.node,
     fetchAccount: PropTypes.func.isRequired,
   };
 
@@ -13,12 +16,14 @@ class App extends Component {
   }
 
   render() {
-    const { children } = this.props;
-
     return (
-      <div>
-        {children}
-      </div>
+      <BrowserRouter>
+        <div>
+          <Match exactly pattern="/" component={Home} />
+          <Match pattern="/blog/:slug" component={Post} />
+          <Miss component={NotFound} />
+        </div>
+      </BrowserRouter>
     );
   }
 }
