@@ -55,9 +55,6 @@ class Post extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps');
-    console.log(nextProps.params.slug);
-    console.log(nextProps.params.slug.length);
     if (nextProps.params.slug !== this.props.params.slug) {
       this.props.fetchPost(nextProps.params.slug);
     }
@@ -111,8 +108,8 @@ class Post extends Component {
   }
 
   render() {
-    console.log('render');
-    console.log(this.props.post);
+    console.log('render params');
+    console.log(this.props.params);
     return (
       <div>
         {this.renderHeader()}
