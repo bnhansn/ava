@@ -6,8 +6,6 @@ import {
 } from './constants';
 
 export function fetchPost(slug) {
-  console.log('fetchPost');
-  console.log(slug);
   return dispatch => {
     dispatch({ type: FETCH_POST_REQUEST });
     return ekto.fetch(`/posts/${slug}`)

@@ -10,8 +10,6 @@ const queryString = (params) => {
 
 export default {
   fetch(path, params = {}) {
-    console.log('ekto fetch');
-    console.log(path);
     return fetch(`${EKTO_URL}/${ACCOUNT_KEY}${path}${queryString(params)}`)
       .then(response =>
         response.json().then(json => {

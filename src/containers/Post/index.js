@@ -48,14 +48,13 @@ class Post extends Component {
   };
 
   componentWillMount() {
-    console.log('componentWillMount');
-    console.log(this.props.params.slug);
-    console.log(this.props.params.slug.length);
-    this.props.fetchPost(this.props.params.slug);
+    if (this.props.params.slug) {
+      this.props.fetchPost(this.props.params.slug);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.slug !== this.props.params.slug) {
+    if (nextProps.params.slug && (nextProps.params.slug !== this.props.params.slug)) {
       this.props.fetchPost(nextProps.params.slug);
     }
   }
@@ -108,8 +107,6 @@ class Post extends Component {
   }
 
   render() {
-    console.log('render params');
-    console.log(this.props.params);
     return (
       <div>
         {this.renderHeader()}
