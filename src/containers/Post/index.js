@@ -111,6 +111,8 @@ class Post extends Component {
   }
 
   render() {
+    console.log('render');
+    console.log(this.props.post);
     return (
       <div>
         {this.renderHeader()}
