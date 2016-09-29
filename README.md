@@ -4,6 +4,9 @@ Ava is a demo blog template made for [Ekto](https://github.com/bnhansn/ekto).
 
 This project was created with [create-react-app](https://github.com/facebookincubator/create-react-app).
 
+Check out the companion theme [Eve](https://github.com/bnhansn/eve) if you are
+interested in server side rendering.
+
 ## Getting Started
 
 Create an account at [https://ekto.tech](https://ekto.tech).
@@ -13,27 +16,27 @@ Make a note of the API key on your Ekto account settings page.
 Clone the repository.
 
 ```
-$ git clone https://github.com/bnhansn/ava.git
-$ cd ava
+git clone https://github.com/bnhansn/ava.git
+cd ava
 ```
 
 Create a `.env` file in the project root and add your Ekto API key.
 
 ```
-$ touch .env
-$ echo "REACT_APP_EKTO_KEY=<your api key>" >> .env
+touch .env
+echo "REACT_APP_EKTO_KEY=<your api key>" >> .env
 ```
 
 Install project dependencies.
 
 ```
-$ npm install
+npm install
 ```
 
 Start the application.
 
 ```
-$ npm start
+npm start
 ```
 
 ## Deploying to S3
@@ -48,7 +51,7 @@ Prerequisites:
 To deploy:
 
 ```
-$ REACT_APP_EKTO_KEY=<your api key> npm run deploy
+REACT_APP_EKTO_KEY=<your api key> npm run deploy
 ```
 
 The deploy command first runs `npm run build` to create a production optimized build of your application, followed by `npm run upload`. The upload command runs the script `./scripts/upload.js` to sync the `/build` directory to your S3 bucket.
