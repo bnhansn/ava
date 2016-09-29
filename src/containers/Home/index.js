@@ -63,7 +63,7 @@ class Home extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { page, limit } = this.state;
     this.props.fetchPosts({ page, limit });
   }

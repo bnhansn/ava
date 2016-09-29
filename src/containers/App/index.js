@@ -11,7 +11,7 @@ class App extends Component {
     fetchAccount: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchAccount();
   }
 

@@ -47,10 +47,8 @@ class Post extends Component {
     fetchPost: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
-    if (this.props.params.slug !== 'null') {
-      this.props.fetchPost(this.props.params.slug);
-    }
+  componentDidMount() {
+    this.props.fetchPost(this.props.params.slug);
   }
 
   componentWillReceiveProps(nextProps) {
