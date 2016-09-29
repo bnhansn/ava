@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import { Link } from 'react-router';
+import { media } from '../../styles/settings';
 
 const styles = StyleSheet.create({
   header: {
@@ -9,7 +10,10 @@ const styles = StyleSheet.create({
   },
 
   headerWithImage: {
-    height: '60vh',
+    height: '40vh',
+    [media.mdUp]: {
+      height: '60vh',
+    },
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',

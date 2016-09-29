@@ -8,7 +8,7 @@ import { Router, browserHistory, applyRouterMiddleware } from 'react-router';
 import 'normalize.css';
 import reducers from './reducers';
 import routes from './routes';
-import './index.css';
+import './styles/index.css';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 
